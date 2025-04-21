@@ -2,22 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { ButtonExpand } from './ButtonExpand'
 
 
-const PuzzleImage = () => {
-  const [imageSrc, setImageSrc] = useState(null);
+const PuzzleImage = ({ imageSrc }) => {
   const [tiles, setTiles] = useState([]);
   const [selectedTile, setSelectedTile] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const columns = 3;
-  const rows = 3;
+  const columns = 4;
+  const rows = 4;
   const totalTiles = columns * rows;
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageSrc(URL.createObjectURL(file));
-    }
-  };
 
   const shuffle = (array) => {
     return [...array].sort(() => Math.random() - 0.5);
@@ -72,9 +64,9 @@ const PuzzleImage = () => {
   }, [imageLoaded, imageSrc]);
 
   return (
-    <div className="flex flex-col items-center p-4 gap-4 select-none">
+    <div className="flex flex-col items-center p-4 gap-4 select-none text-white">
       <ButtonExpand />
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
+
       {isComplete
         ? <img src={imageSrc} />
         : imageSrc && (
