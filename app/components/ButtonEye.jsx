@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { IconEye } from '../icons/IconEye';
 import { IconEyeSlash } from '../icons/IconEyeSlash'
-
+import { useUser } from '../context/UserContext'
 export const ButtonEye = () => {
+  const { imageSrc } = useUser()
   const [showImage, setShowImage] = useState(false)
-  const handleshowImage = () => {
-    setShowImage(!showImage)
-  }
+
   return (
     <>
       <button
@@ -21,12 +20,10 @@ export const ButtonEye = () => {
       </button>
       {showImage && (<div style={{
         position: 'absolute',
-        top: 10,
-        left: 10,
-        height: 200,
-        width: 200,
-        background: 'red'
-      }}></div>)}
+        top: 50,
+        right: 10,
+        width: 150,
+      }}><img src={imageSrc} /></div>)}
 
     </>
   )

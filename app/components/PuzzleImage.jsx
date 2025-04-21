@@ -6,7 +6,7 @@ const PuzzleImage = ({ imageSrc }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const columns = 4;
-  const rows = 4;
+  const rows = 8;
   const totalTiles = columns * rows;
 
   const shuffle = (array) => {

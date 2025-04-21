@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import PuzzleImage from './PuzzleImage'
 import { toggleFullScreen } from '../utils/fullScreen'
+import { useUser } from '../context/UserContext'
 import './styleTela.css';
 
 export const Tela = () => {
   const [showComponent, setShowComponent] = useState('init')
-  const [imageSrc, setImageSrc] = useState(null);
+  const { imageSrc, setImageSrc } = useUser()
   const handleStart = () => {
     setShowComponent('game')
     toggleFullScreen()
