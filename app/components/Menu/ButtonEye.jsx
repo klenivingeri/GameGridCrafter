@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { IconEye } from '../icons/IconEye';
-import { IconEyeSlash } from '../icons/IconEyeSlash'
-import { useUser } from '../context/UserContext'
+import { IconEye } from '../../icons/IconEye';
+import { IconEyeSlash } from '../../icons/IconEyeSlash'
+import { useUser } from '../../context/UserContext'
+
 export const ButtonEye = () => {
   const { imageSrc } = useUser()
   const [showImage, setShowImage] = useState(false)
@@ -9,7 +10,7 @@ export const ButtonEye = () => {
   return (
     <>
       <button
-        onTouchStart={() => setShowImage(!showImage)}
+        onClick={() => setShowImage(!showImage)}
         style={{
           color: 'black',
           padding: '10px 15px',

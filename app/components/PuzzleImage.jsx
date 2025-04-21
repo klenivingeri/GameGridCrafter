@@ -1,22 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useUser } from '../context/UserContext'
+import { Modal } from './Modal'
 
-const PuzzleImage = ({ imageSrc }) => {
+const PuzzleImage = () => {
+  const { imageSrc, setCountMove, countMove, time } = useUser()
+
+  const [modalOpen, setModalOpen] = useState(false);
   const [tiles, setTiles] = useState([]);
   const [selectedTile, setSelectedTile] = useState(null);
+  const [successGrid, setSuccessGrid] = useState(null)
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const columns = 4;
-  const rows = 8;
+  const columns = 3;
+  const rows = 3;
   const totalTiles = columns * rows;
 
   const shuffle = (array) => {
     return [...array].sort(() => Math.random() - 0.5);
   };
 
-  const handleTileClick = (index) => {
+  const handleTileClick = (index, grid) => {
+
+    if (successGrid == index) {
+      window.navigator.vibrate(20);
+    }
+
     if (selectedTile === null) {
       setSelectedTile(index);
     } else {
+      setCountMove(countMove + 1)
       const newTiles = [...tiles];
       [newTiles[selectedTile], newTiles[index]] = [newTiles[index], newTiles[selectedTile]];
       setTiles(newTiles);
@@ -27,11 +39,13 @@ const PuzzleImage = ({ imageSrc }) => {
       setIsComplete(finish)
 
       if (finish) {
+        time.handlePause()
         setTimeout(() => {
-          alert('🎉 Puzzle completo!');
-        }, 100);
+          setModalOpen(true)
+        }, 1000);
       }
     }
+    setSuccessGrid(grid)
   };
 
   const handleContextMenu = (e) => {
@@ -59,11 +73,16 @@ const PuzzleImage = ({ imageSrc }) => {
       const shuffled = shuffle(generatedTiles);
       setTiles(shuffled);
     }
+    time.handleStart()
   }, [imageLoaded, imageSrc]);
+
 
   return (
     <div className="flex flex-col items-center p-4 gap-4 select-none text-white">
-
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <h2 className="text-xl font-bold mb-2">Olá, mundo!</h2>
+        <p>Este é um modal simples com Tailwind.</p>
+      </Modal>
       {isComplete
         ? <img src={imageSrc} />
         : imageSrc && (
@@ -86,7 +105,7 @@ const PuzzleImage = ({ imageSrc }) => {
                 {tiles.map((tile, index) => (
                   <div
                     key={index}
-                    onClick={() => tile.id == index ? null : handleTileClick(index)}
+                    onClick={() => tile.id == index ? null : handleTileClick(index, tile.id)}
                     onContextMenu={handleContextMenu}
                     style={{
                       ...tile.style,

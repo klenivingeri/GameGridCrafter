@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ExpandIn } from '../icons/ExpandIn';
-import { ExpandOut } from '../icons/ExpandOut';
-import { toggleFullScreen } from '../utils/fullScreen'
+import { ExpandIn } from '../../icons/ExpandIn';
+import { ExpandOut } from '../../icons/ExpandOut';
+import { toggleFullScreen } from '../../utils/fullScreen'
 
 export const ButtonExpand = () => {
   const [isExpand, setIsExpand] = useState(false)

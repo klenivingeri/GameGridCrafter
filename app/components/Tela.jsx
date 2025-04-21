@@ -5,8 +5,7 @@ import { useUser } from '../context/UserContext'
 import './styleTela.css';
 
 export const Tela = () => {
-  const [showComponent, setShowComponent] = useState('init')
-  const { imageSrc, setImageSrc } = useUser()
+  const { setImageSrc, showComponent, setShowComponent } = useUser()
   const handleStart = () => {
     setShowComponent('game')
     toggleFullScreen()
@@ -48,7 +47,7 @@ export const Tela = () => {
   if (showComponent == 'game') {
     return (
       <div className='flex justify-center align-middle items-center h-full w-full'>
-        <PuzzleImage imageSrc={imageSrc} />
+        <PuzzleImage />
       </div>
     )
   }
