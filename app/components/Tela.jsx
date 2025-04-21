@@ -45,7 +45,11 @@ export const Tela = () => {
     </div >
   }
   if (showComponent == 'game') {
-    return <PuzzleImage imageSrc={imageSrc} />
+    return (
+      <div className='flex justify-center align-middle items-center h-full w-full'>
+        <PuzzleImage imageSrc={imageSrc} />
+      </div>
+    )
   }
 
   return <div> nada selecionado</div>

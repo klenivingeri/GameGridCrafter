@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonExpand } from './ButtonExpand'
-
 
 const PuzzleImage = ({ imageSrc }) => {
   const [tiles, setTiles] = useState([]);
@@ -65,7 +63,6 @@ const PuzzleImage = ({ imageSrc }) => {
 
   return (
     <div className="flex flex-col items-center p-4 gap-4 select-none text-white">
-      <ButtonExpand />
 
       {isComplete
         ? <img src={imageSrc} />
@@ -93,7 +90,11 @@ const PuzzleImage = ({ imageSrc }) => {
                     onContextMenu={handleContextMenu}
                     style={{
                       ...tile.style,
-                      border: selectedTile === index ? '2px solid red' : '1px solid white',
+                      border: selectedTile === index
+                        ? '2px solid red'
+                        : tile.id == index
+                          ? ''
+                          : '1px solid white',
                       cursor: 'pointer',
                       boxSizing: 'border-box',
                       display: 'flex',

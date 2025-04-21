@@ -13,11 +13,7 @@ export const ButtonExpand = () => {
     <button
       onClick={handleExpand}
       style={{
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        color: 'white',
-        zIndex: 1000,
+        color: 'black',
         padding: '10px 15px',
         fontSize: '16px',
       }}
