@@ -5,9 +5,8 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-900
-  ;
-
+  @apply bg-white dark:bg-gray-900 select-none;
+  
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }

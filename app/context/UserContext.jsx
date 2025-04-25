@@ -8,7 +8,7 @@ export const useUser = () => useContext(UserContext)
 
 // Provider que envolve a aplicação
 export const UserProvider = ({ children }) => {
-  const [showComponent, setShowComponent] = useState('init')
+  const [showComponent, setShowComponent] = useState('my')
   const [user, setUser] = useState(null)
   const [imageSrc, setImageSrc] = useState(null); // imagem
   const [countMove, setCountMove] = useState(0) // movimentos
@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
   //################### Relogio
   const [seconds, setSeconds] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
+  const [grid, setGrid] = useState({ columns: 3, rows: 3 })
   const intervalRef = useRef(null)
 
   const login = (name) => {
@@ -26,6 +27,7 @@ export const UserProvider = ({ children }) => {
     setUser(null)
   }
 
+  console.log('aaaaabbbbbb', grid)
   useEffect(() => {
     if (isRunning) {
       intervalRef.current = setInterval(() => {
@@ -69,7 +71,9 @@ export const UserProvider = ({ children }) => {
           handleReset,
         },
         showComponent,
-        setShowComponent
+        setShowComponent,
+        grid,
+        setGrid
       }}
     >
       {children}

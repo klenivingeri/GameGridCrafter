@@ -3,7 +3,7 @@ import { useUser } from '../context/UserContext'
 import { Modal } from './Modal'
 
 const PuzzleImage = () => {
-  const { imageSrc, setCountMove, countMove, time } = useUser()
+  const { imageSrc, setCountMove, countMove, time, grid } = useUser()
 
   const [modalOpen, setModalOpen] = useState(false);
   const [tiles, setTiles] = useState([]);
@@ -11,16 +11,14 @@ const PuzzleImage = () => {
   const [successGrid, setSuccessGrid] = useState(null)
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const columns = 3;
-  const rows = 3;
-  const totalTiles = columns * rows;
+  console.log('aaaaaa', grid)
+  const totalTiles = grid.columns * grid.rows;
 
   const shuffle = (array) => {
     return [...array].sort(() => Math.random() - 0.5);
   };
 
   const handleTileClick = (index, grid) => {
-
     if (successGrid == index) {
       window.navigator.vibrate(20);
     }
@@ -42,7 +40,7 @@ const PuzzleImage = () => {
         time.handlePause()
         setTimeout(() => {
           setModalOpen(true)
-        }, 1000);
+        }, 2000);
       }
     }
     setSuccessGrid(grid)
@@ -55,8 +53,8 @@ const PuzzleImage = () => {
   useEffect(() => {
     if (imageLoaded && imageSrc) {
       const generatedTiles = Array.from({ length: totalTiles }, (_, index) => {
-        const col = index % columns;
-        const row = Math.floor(index / columns);
+        const col = index % grid.columns;
+        const row = Math.floor(index / grid.columns);
         return {
           id: index, // posição atual (será embaralhada)
           originalId: index, // posição correta
@@ -64,8 +62,8 @@ const PuzzleImage = () => {
           row,
           style: {
             backgroundImage: `url(${imageSrc})`,
-            backgroundSize: `${columns * 100}% ${rows * 100}%`,
-            backgroundPosition: `${(col / (columns - 1)) * 100}% ${(row / (rows - 1)) * 100}%`,
+            backgroundSize: `${grid.columns * 100}% ${grid.rows * 100}%`,
+            backgroundPosition: `${(col / (grid.columns - 1)) * 100}% ${(row / (grid.rows - 1)) * 100}%`,
           },
         };
       });
@@ -73,9 +71,7 @@ const PuzzleImage = () => {
       const shuffled = shuffle(generatedTiles);
       setTiles(shuffled);
     }
-    time.handleStart()
-  }, [imageLoaded, imageSrc]);
-
+  }, [imageLoaded, imageSrc, grid]);
 
   return (
     <div className="flex flex-col items-center p-4 gap-4 select-none text-white">
@@ -85,21 +81,19 @@ const PuzzleImage = () => {
       </Modal>
       {isComplete
         ? <img src={imageSrc} />
-        : imageSrc && (
-          <div className={`relative max-w-[90vw]`}>
-            <img
-              src={imageSrc}
-              alt="puzzle"
-              onLoad={() => setImageLoaded(true)}
-              className="w-full h-auto block"
-            />
-
-            {imageLoaded && (
+        : imageSrc && imageLoaded
+          ? (
+            <div className={`relative max-w-[90vw]`}>
+              <img
+                src={imageSrc}
+                alt="puzzle"
+                className="w-full h-auto block"
+              />
               <div
                 className="absolute inset-0 grid"
                 style={{
-                  gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                  gridTemplateRows: `repeat(${rows}, 1fr)`,
+                  gridTemplateColumns: `repeat(${grid.columns}, 1fr)`,
+                  gridTemplateRows: `repeat(${grid.rows}, 1fr)`,
                 }}
               >
                 {tiles.map((tile, index) => (
@@ -120,12 +114,25 @@ const PuzzleImage = () => {
                       justifyContent: 'center',
                       alignItems: 'center'
                     }}
-                  >{tile.id == index ? tile.id + 1 : null}</div>
+                  ></div>
                 ))}
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          )
+          : (
+            <>
+              <img
+                src={imageSrc}
+                onLoad={() => {
+                  time.handleStart()
+                  setImageLoaded(true)
+                }}
+                className="w-[0px] h-[0px]"
+              />
+              <span className='text-white'>Carregando imagem...</span>
+            </>
+          )
+      }
     </div>
   );
 };
